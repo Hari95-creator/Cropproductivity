@@ -1,0 +1,42 @@
+{% extends 'public/base.html' %}
+{% load static %}
+{% block content %}
+    <div class="hero-wrap hero-bread" style="background-image: url('{% static 'public/images/bg_1.jpg' %}');">
+      <div class="container">
+        <div class="row no-gutters slider-text align-items-center justify-content-center">
+          <div class="col-md-9 ftco-animate text-center">
+          	<p class="breadcrumbs"><span class="mr-2">MEET </span></p>
+            <h1 class="mb-0 bread">Our Farmers</h1>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <section class="ftco-section ftco-degree-bg">
+      <div class="container">
+        <div class="row">
+           {% for farmer in farmers %} 
+                <div class="col-md-6 col-lg-3 ftco-animate">
+                    <div class="product">
+                        <a class="img-prod"><img class="img-fluid" src="{{ farmer.userprofile.img.url}}" alt="Colorlib Template">
+                            <span class="status">Top Rated</span>
+                            <div class="overlay"></div>
+                        </a>
+                        <div class="text py-3 pb-4 px-3 text-center">
+                            <h3><a href="#">{{ farmer.first_name}}{{ farmer.last_name}}</a></h3>
+                            <div class="d-flex">
+                                <div class="pricing">
+                                    <p class="price"><span class="price-sale">{{ farmer.userprofile.description}}</span></p>
+                                </div>
+                            </div>
+                            <div class="bottom-area d-flex px-3" >
+                                <a style="width: 150px; border-radius: 15px;" href="farmerdetails?id={{ farmer.id }}" class="btn btn-primary">Read more</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}  
+            </div>
+          </div>
+    </section> <!-- .section -->
+  {% endblock %}

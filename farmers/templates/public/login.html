@@ -1,0 +1,64 @@
+{% extends 'public/loginsignupbase.html' %}
+{% load static %}
+{% block content %}
+                <div class="col-sm-10 login-box">
+                    <div class="row">
+                        <div class="col-lg-8 col-md-7 log-det">
+                            <div class="small-logo">
+                                <i class="fab fa-asymmetrik"></i> User's Login
+                            </div>
+                            <h2>Sign in to Farmer's E Market</h2>
+                            <div class="row">
+                                
+                            </div>
+                            <div class="row">
+                                <p class="small-info">&nbsp;</p>
+                            </div>
+
+
+                            <div class="text-box-cont">
+                                <form action="plogin" method="post">
+                                     {% csrf_token %}
+                                <div class="input-group mb-3">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text" id="basic-addon1"><i class="fas fa-user"></i></span>
+                                    </div>
+                                    <input type="email" class="form-control" placeholder="Username" name="username" aria-describedby="basic-addon1" required>
+                                </div>
+                                 <div class="input-group mb-3">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text" id="basic-addon1"><i class="fas fa-lock"></i></span>
+                                    </div>
+                                    <input type="password" class="form-control" placeholder="Password" name="password" aria-describedby="basic-addon1" required>
+                                </div>
+                                {% if status == True %}
+                                <div class="logerror">
+                                    Wrong username or password. Try Again..!
+                                </div>
+                               
+                                {% endif %}
+                                <div class="row">
+                                    <p class="forget-p"><a href="forgotpassword" class="nav-link">Forgot Password ?</a></p>
+                                </div>
+                                <div class="input-group center mb-3">
+                                    <button class="btn btn-success btn-round" type="submit">Login</button>
+                                </div>  
+                                </form>  
+                            </div>
+                            
+
+
+                        </div>
+                        <div class="col-lg-4 col-md-5 box-de" style="background-image: url({% static 'public/images/bg_2.jpg' %});">
+                            <div class="ditk-inf">
+                                <h2 class="w-100">Didn't Have an Account </h2>
+                                <p>Simply Create your account by clicking the Signup Button</p>
+                                <a href="signup">
+                                <button type="button" class="btn btn-outline-light">Signup</button>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+ {% endblock %}

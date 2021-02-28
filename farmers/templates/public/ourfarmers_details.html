@@ -1,0 +1,94 @@
+{% extends 'public/base.html' %}
+{% load static %}
+{% block content %}
+    <div class="hero-wrap hero-bread" style="background-image: url('{% static 'public/images/bg_1.jpg' %}');">
+      <div class="container">
+        <div class="row no-gutters slider-text align-items-center justify-content-center">
+          <div class="col-md-9 ftco-animate text-center">
+          	<p class="breadcrumbs"><span class="mr-2">Meet</span></p>
+            <h1 class="mb-0 bread">OUR FARMERS</h1>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <section class="ftco-section">
+    	{% for farmer in farmers %} 
+    	<div class="container">
+    		<div class="row">
+    			<div class="col-lg-6 mb-5 ftco-animate">
+    				<a href="{{ farmer.userprofile.img.url }}" class="image-popup"><img src="{{ farmer.userprofile.img.url }}" class="img-fluid" alt="Colorlib Template"></a>
+    			</div>
+    			<div class="col-lg-6 product-details pl-md-5 ftco-animate">
+    				<h3>{{ farmer.first_name}}{{ farmer.last_name}}</h3>
+
+					<div class="ftco-footer-widget mb-5">
+                        
+                            <p><span class="ftco-heading-2"><b>Total Products</b> :</span>{{ tcount}}</p>
+                            <p><span class="ftco-heading-2"><b>Sold Count</b> :</span>{{ scount}}</p>
+
+                            <p><span class="ftco-heading-2"><b>License Number</b> :</span>{{ farmer.userprofile.license_no}}</p>
+							<p><span class="ftco-heading-2"><b>Manufacture Code</b> :</span>{{ farmer.userprofile.manufacture_code}}</p>
+							<p><span class="ftco-heading-2"><b>Location</b> :</span>{{ farmer.userprofile.town}},{{ farmer.userprofile.state}}</p>  
+                            <p><span class="ftco-heading-2"><b>Phone</b> :</span>{{ farmer.userprofile.phone}}</p> 
+							<p class="price"><span>About {{ farmer.first_name}}</span></p>
+							<p class="ftco-heading-2"><span>{{ farmer.userprofile.description}}</span></p>   
+
+    				</div>
+    			</div>
+    		</div>
+    	</div>
+    </section>
+
+    <section class="ftco-section">
+    	<div class="container">
+				<div class="row justify-content-center mb-3 pb-3">
+          <div class="col-md-12 heading-section text-center ftco-animate">
+          	<span class="subheading">Products</span>
+            <h2 class="mb-4">{{ farmer.first_name}}'s Products</h2>
+            {% endfor %}
+          </div>
+        </div>   		
+    	</div>
+    	<div class="container">
+    		<div class="row">
+    			{% for rpro in products %}
+    			<div class="col-md-6 col-lg-3 ftco-animate">
+    				<div class="product">
+    					<a href="#" class="img-prod"><img class="img-fluid" src="{{ rpro.img.url}}" alt="Colorlib Template">
+    						{% if rpro.offer %}
+    						<span class="status">on offer</span>
+    						{% endif %}
+    						<div class="overlay"></div>
+    					</a>
+    					<div class="text py-3 pb-4 px-3 text-center">
+    						<h3><a href="#">{{ rpro.pname }}</a></h3>
+    						<div class="d-flex">
+    							<div class="pricing">
+                                    {% if rpro.offer %}<p class="price"><span class="mr-2 price-dc">₹{{ rpro.price }}</span><span class="price-sale">₹{{ rpro.offerprice }}</span> </p>{% else %}<p class="price"><span class="price-sale">₹{{ rpro.price }}</span> </p>{% endif %}
+                                </div>
+	    					</div>
+	    					<div class="bottom-area d-flex px-3">
+	    						<div class="m-auto d-flex">
+                                    <a href="/product?id={{ rpro.id }}" class="product-details d-flex justify-content-center align-items-center text-center">
+                                        <span><i class="ion-ios-menu"></i></span>
+                                    </a>
+                                     {% if user.is_authenticated %}
+                                    <a href="#" id="addcart" data-id="{{ rpro.id }}" class="add-to-cart d-flex justify-content-center align-items-center mx-1">
+                                        <span id="addcart"><i id="addcart{{ rpro.id }}"class="ion-ios-cart"></i></span>
+                                    </a>
+                                    <a href="#" id="addwish" data-id="{{ rpro.id }}" class="add-to-wish heart d-flex justify-content-center align-items-center ">
+                                        <span id="addwish"><i id="addwish{{ rpro.id }}" class="ion-ios-heart"></i></span>
+                                    </a>
+                                    {% endif %}
+                                </div>
+    						</div>
+    					</div>
+    				</div>
+    			</div>
+    	      {% endfor %}
+    		</div>
+    	</div>
+    </section>
+    
+ {% endblock %}

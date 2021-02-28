@@ -1,0 +1,231 @@
+{% extends 'public/base.html' %}
+{% load static %}
+{% block content %}
+    <div class="hero-wrap hero-bread" style="background-image: url('{% static 'public/images/bg_1.jpg' %}');">
+      <div class="container">
+        <div class="row no-gutters slider-text align-items-center justify-content-center">
+          <div class="col-md-9 ftco-animate text-center">
+          	<p class="breadcrumbs"><span class="mr-2">Freshly</span> <span>Plucked</span></p>
+            <h1 class="mb-0 bread">Product</h1>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <section class="ftco-section">
+    	{% for pro in product %} 
+    	<div class="container">
+    		<div class="row">
+    			<div class="col-lg-6 mb-5 ftco-animate">
+    				<a href="{{ pro.img.url}}" class="image-popup"><img src="{{ pro.img.url}}" class="img-fluid" alt="Colorlib Template"></a>
+    			</div>
+    			<div class="col-lg-6 product-details pl-md-5 ftco-animate">
+                    <form action="" method="get">
+    				<h3>{{ pro.pname }}</h3>
+                    <div class="col-md-12">
+    				<div class="rating d-flex">
+							<p class="text-left mr-4">
+								<a href="#" class="mr-2">{{ trate }}</a>      
+                                {% with ''|center:trate as range %}
+                                    {% for i in range %}  
+                                        <a href="#"><span class="ion-ios-star"></span></a>
+                                    {% endfor %}
+                                {% endwith %}
+                                {% if not half %}
+                                    <a href="#"><span class="ion-ios-star-half"></span></a>
+                                {% endif %}
+                                {% with ''|center:nostars as range %}
+                                    {% for j in range %}  
+                                        <a href="#"><span class="ion-ios-star-outline"></span></a>
+                                    {% endfor %}
+                                {% endwith %}
+                               
+							</p>
+							<p class="text-left mr-4">
+								<a href="#" class="mr-2" style="color: #000;">{{ chkreview.count }} <span style="color: #bbb;">Rating</span></a>
+							</p>
+							<p class="text-left" >
+								<a href="#" class="mr-2" style="color: #000;">{{ soldcount }} <span style="color: #bbb;">Sold</span></a>
+							</p>
+                          
+						</div>
+                
+	          	
+                    <p class="price"><span class="ftco-heading-2"><br>₹{% if pro.offer %}{{ pro.offerprice }}{% else %}{{ pro.price }}{% endif %}</span></p>
+                    <p>{{ pro.description }}</p>
+                    <p><span class="ftco-heading-2"><b>Produced by</b> : </span><a href="farmerdetails?id={{ pro.owner.id }}">{{ pro.owner.first_name }}</a></p>
+                    <p><span class="ftco-heading-2"><b>Place</b> : </span> {{ pro.owner.userprofile.town}},{{ pro.owner.userprofile.state}}</p>
+	          		 <p><span class="ftco-heading-2"><b>Total Stock</b> : </span>{{ pro.stock }}</p>
+                     <div class="input-group col-md-6 d-flex mb-3">
+                    <span class="input-group-btn mr-2">
+                        <button type="button" class="quantity-left-minus btn"  data-type="minus" data-field="">
+                       <i class="ion-ios-remove"></i>
+                        </button>
+                        </span>
+                    <input type="text"  id="quantity" name="quantity" class="form-control input-number" value="1" min="1" max="{{ pro.stock }}">
+                    <span class="input-group-btn ml-2">
+                        <button type="button" class="quantity-right-plus btn" data-type="plus" data-id="{{ pro.stock }}">
+                         <i class="ion-ios-add"></i>
+                     </button>
+                    </span>
+                </div>
+          	</div>
+          	<p>
+                {% if user.is_authenticated %}
+                <a href="#" id="addcart" data-id="{{ pro.id }}" type="submit" class="add-to-cart btn btn-black py-3 px-5">Add to Cart</a>
+                {% if buyed == True %}
+                 <a class="btn btn-success btn-green" data-id="{{ pro.id }}" href="#" id="open-review-box">Leave a Review</a>
+                 {% endif %}
+                {% else %}
+                <a href="plogin" type="submit" class="btn btn-black py-3 px-5">Login to Buy</a>
+                {% endif %} 
+            </p>
+          </form>
+    	</div>
+    		</div>
+    	</div>
+    	
+        <div  class="container">
+            <div class="row" id="post-review-box" style="display:none;">
+                                <div class="col-md-12">
+                            
+                                        <input id="ratings-hidden" name="rating1" type="hidden"> 
+                                        <textarea class="form-control animated" cols="50" id="new-review" name="comment" placeholder="Enter your review here..." rows="5" maxlength="199"></textarea>
+                        
+                                        <div class="text-right">
+                                            <div class="stars starrr" data-rating="0"></div>
+                                            
+
+                                        <fieldset class="rating" name="rating1" >
+                                            <input type="radio" id="star5" name="rating" value="5" /><label class = "full" for="star5" title="Awesome - 5 stars"><span class="ion-ios-star"></span></label>
+                                            <input type="radio" id="star4" name="rating" value="4" /><label class = "full" for="star4" title="Pretty good - 4 stars"><span class="ion-ios-star"></span></label>
+                                            <input type="radio" id="star3" name="rating" value="3" /><label class = "full" for="star3" title="Meh - 3 stars"><span class="ion-ios-star"></span></label>
+                                            <input type="radio" id="star2" name="rating" value="2" /><label class = "full" for="star2" title="Kinda bad - 2 stars"><span class="ion-ios-star"></span></label>
+                                            <input type="radio" id="star1" name="rating" value="1" /><label class = "full" for="star1" title="Sucks big time - 1 star"><span class="ion-ios-star"></span></label>
+                                           
+                                        </fieldset>
+
+                                            <a class="btn btn-danger btn-sm" href="#" id="close-review-box" style="display:none; margin-right: 10px;">
+
+                                            <span class="glyphicon glyphicon-remove"></span>Cancel</a>
+                                            <button class="btn btn-success btn-lg add-review" data-id="{{ pro.id }}" >Save</button>
+                                        </div>
+                                    
+                               
+
+                </div>   
+        </div>
+    </div>
+</section>
+     <section class="ftco-section1">
+        <div class="container">
+            <div class="row justify-content-center">
+          <div class="heading-section text-center ftco-animate">
+<h2 class="mb-4">Product Reviews</h2></div></div></div>
+<div  class="container" id="overflowTest">
+
+        <!-- comments container -->
+                <div class="comment_block">
+                 <!-- new comment -->
+                 <div class="new_comment">
+                    {% if chkreview %}
+                    <!-- build comment --> 
+                    {% for review in chkreview %}  
+                    <ul class="user_comment">
+
+                        <!-- current #{user} avatar -->
+                        <div class="user_avatar">
+                            <img src="{{ review.userid.userprofile.img.url }}" height="73" width="73" >
+                            
+                                <span class="text-left mr-4">
+                                    {% with ''|center:review.stars as range %}
+                                    {% for i in range %}  
+                                    <a href="#"><span class="ion-ios-star-outline ion-ios-star-outline1"></span></a>
+                                    {% endfor %}
+                                    {% endwith %}
+                                </span>
+                        
+                        </div><!-- the comment body -->
+                        <div class="comment_body">
+                            <p><span class="ftco-heading-2"><b>{{ review.userid.first_name }}</b> :</span></p><div class="cut-text">
+{{ review.review }}
+</div> 
+                        </div>
+                    </ul>
+                    {% endfor %}
+                     {% else %}
+
+                     <ul class="user_comment">
+
+                        <div class="comment_body">
+                            <p><span class="ftco-heading-2"><b>No Reviews yet..!</b></p>
+                        </div>
+                    </ul>
+                      {% endif %}
+                 </div>
+                </div>
+
+     </div>
+    {% endfor %}
+    </section>
+
+    <section class="ftco-section">
+    	<div class="container">
+				<div class="row justify-content-center mb-3 pb-3">
+          <div class="col-md-12 heading-section text-center ftco-animate">
+          	<span class="subheading">Products</span>
+            <h2 class="mb-4">Related Products</h2>
+            <p>Far far away, behind the word mountains, far from the countries Vokalia and Consonantia</p>
+          </div>
+        </div>   		
+    	</div>
+    	<div class="container">
+    		<div class="row">
+                {% if rproduct %}
+                 {% for rpro in rproduct %} 
+
+                <div class="col-md-6 col-lg-3 ftco-animate">
+                    <div class="product">
+                        <a href="#" class="img-prod"><img class="img-fluid" src="{{ rpro.img.url}}" alt="Colorlib Template">
+                            {% if rpro.offer %}
+                            <span class="status">{{ rpro.offerprice }}on offer</span>
+                            {% endif %}
+                            <div class="overlay"></div>
+                        </a>
+                        <div class="text py-3 pb-4 px-3 text-center">
+                            <h3><a href="#">{{ rpro.pname }}</a></h3>
+                            <div class="d-flex">
+                                <div class="pricing">
+                                    {% if rpro.offer %}<p class="price"><span class="mr-2 price-dc">₹{{ rpro.price }}</span><span class="price-sale">₹{{ rpro.offerprice }}</span> </p>{% else %}<p class="price"><span class="price-sale">₹{{ rpro.price }}</span> </p>{% endif %}
+                                </div>
+                            </div>
+                            <div class="bottom-area d-flex px-3">
+                                <div class="m-auto d-flex">
+                                    <a href="/product?id={{ rpro.id }}" class="product-details d-flex justify-content-center align-items-center text-center">
+                                        <span><i class="ion-ios-menu"></i></span>
+                                    </a>
+                                    {% if user.is_authenticated %}
+                                    <a href="#" id="addcart" data-id="{{ rpro.id }}" class="add-to-cart d-flex justify-content-center align-items-center mx-1">
+                                        <span id="addcart"><i id="addcart{{ rpro.id }}"class="ion-ios-cart"></i></span>
+                                    </a>
+                                    <a href="#" id="addwish" data-id="{{ rpro.id }}" class="add-to-wish heart d-flex justify-content-center align-items-center ">
+                                        <span id="addwish"><i id="addwish{{ rpro.id }}" class="ion-ios-heart"></i></span>
+                                    </a>
+                                    {% endif %}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}   
+            {% else %}
+            <div class="col-md-12 heading-section text-center ftco-animate">
+            <h4>No Related Products..!</h4>
+          </div>
+                {% endif %}
+            </div>
+    	</div>
+    </section>
+
+ 
+ {% endblock %}

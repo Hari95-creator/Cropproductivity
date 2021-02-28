@@ -1,0 +1,69 @@
+{% extends 'farmers/base.html' %}
+{% load static %}
+{% block content %}
+    <div class="hero-wrap hero-bread" style="background-image: url('{% static 'public/images/bg_1.jpg' %}');">
+      <div class="container">
+        <div class="row no-gutters slider-text align-items-center justify-content-center">
+          <div class="col-md-9 ftco-animate text-center">
+          	<p class="breadcrumbs"><span class="mr-2">Freshly</span> <span>Plucked</span></p>
+            <h1 class="mb-0 bread">Product</h1>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <section class="ftco-section">
+    	{% for pro in product %} 
+    	<div class="container">
+    		<div class="row">
+    			<div class="col-lg-6 mb-5 ftco-animate">
+    				<a href="{{ pro.img.url}}" class="image-popup"><img src="{{ pro.img.url}}" class="img-fluid" alt="Colorlib Template"></a>
+    			</div>
+    			<div class="col-lg-6 product-details pl-md-5 ftco-animate">
+    				<h3>{{ pro.pname }}</h3>
+                    <div class="col-md-12">
+    				<div class="rating d-flex">
+							<p class="text-left mr-4">
+								<a href="#" class="mr-2">{{ trate }}</a>      
+                                {% with ''|center:trate as range %}
+                                    {% for i in range %}  
+                                        <a href="#"><span class="ion-ios-star"></span></a>
+                                    {% endfor %}
+                                {% endwith %}
+                                {% if not half %}
+                                    <a href="#"><span class="ion-ios-star-half"></span></a>
+                                {% endif %}
+                                {% with ''|center:nostars as range %}
+                                    {% for j in range %}  
+                                        <a href="#"><span class="ion-ios-star-outline"></span></a>
+                                    {% endfor %}
+                                {% endwith %}
+                               
+							</p>
+							<p class="text-left mr-4">
+								<a href="#" class="mr-2" style="color: #000;">{{ chkreview.count }} <span style="color: #bbb;">Rating</span></a>
+							</p>
+							<p class="text-left" >
+								<a href="#" class="mr-2" style="color: #000;">{{ soldcount }} <span style="color: #bbb;">Sold</span></a>
+							</p>
+                          
+						</div>
+    				<p class="price"><span class="ftco-heading-2"><br>₹{% if pro.offer %}{{ pro.offerprice }}{% else %}{{ pro.price }}{% endif %}</span></p>
+                    <p>{{ pro.description }}</p>
+	          		 <p><span class="ftco-heading-2"><b>Total Stock</b> : </span>{{ pro.stock }}</p>
+                     
+          	</div>
+          	<p><a href="/farmers/editproduct?id={{ pro.id }}" class="btn btn-black py-3 px-5">Edit</a></p>
+            {% if pro.isactive == True %}
+          	<p><a href="#" id="marksold" data-id="{{ pro.id }}" class="marksold"><span class=" btn btn-black py-3 px-5">Mark as SOLD</span></a></p>
+          	{% else %}
+            <p><a href="#" id="markunsold" data-id="{{ pro.id }}" class="markunsold"><span class=" btn btn-black py-3 px-5">Mark as UNSOLD</span></a></p>
+            {% endif %}
+            <p><a href="#" id="deleteproduct" data-id="{{ pro.id }}" class="deleteproduct btn btn-black py-3 px-5">Delete</a></p>
+    			</div>
+    		</div>
+    	</div>
+    	 {% endfor %}
+    </section>
+    
+ {% endblock %}
