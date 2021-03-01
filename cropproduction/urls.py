@@ -38,7 +38,7 @@ urlpatterns = [
     path('changepassword/',views.changepassword),
     path('publiccheckout/',views.publiccheckout),
     path('publiccontact/',views.publiccontact),
-    #path('publicindex/',views.publicindex),
+    path('publicindex/',views.publicindex),
     url(r'^$',views.publicindex),#for creating root page 
     path('publiclogin/',views.publiclogin),
     path('publicorderstatus/',views.orderstatus),
@@ -50,6 +50,8 @@ urlpatterns = [
     path('publicsignup/',views.publicsignup),
     path('publicwishlist/',views.publicwishlist),
     path('errorpage/',views.errorpage),
+    path('publicsoiltest/',views.soiltest),
+    path('publicweather/',views.weatherdata),
     url(r'^ajax/autocomplete/$', views.autocomplete, name='ajax_autocomplete'),
     
 

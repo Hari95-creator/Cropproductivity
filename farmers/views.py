@@ -69,6 +69,10 @@ def publicwishlist(request):
     return render(request,'public/wishlist.html')
 def errorpage(request):
     return render(request,'public/4O4.html')
+def soiltest(request):
+    return render(request,'public/soiltest.html')
+def weatherdata(request):
+    return render(request,'public/weather.html')
 
 
 
